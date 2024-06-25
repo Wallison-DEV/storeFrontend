@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useBusinessAuth } from '@/context/BusinessAuthContext';
 import { useRouter } from 'next/router';
 import { useSignupBusinessMutation } from '@/app/Services/api';
 
@@ -7,7 +7,7 @@ import Button from '@/app/Components/Button';
 import * as S from '@/app/Styles/login';
 
 const BusinessSignUp = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = useBusinessAuth();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -21,12 +21,13 @@ const BusinessSignUp = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.replace('/');
+            router.replace('/business/login');
         }
     }, [isAuthenticated, router]);
 
-    const handleSignUp = async (e) => {
-        e.preventDefault()
+    const handleSignUp = async (e?: React.MouseEvent<HTMLButtonElement>) => {
+        if (e) e.preventDefault();
+
         try {
             if (password !== rePassword) {
                 alert('As senhas não coincidem');
@@ -45,7 +46,7 @@ const BusinessSignUp = () => {
             await signup(userData);
 
             if (isSuccess) {
-                router.push('/login');
+                router.push('/business/login');
             } else if (isError) {
                 console.error('Erro ao cadastrar empresa');
             }
@@ -129,11 +130,11 @@ const BusinessSignUp = () => {
                     <a href='/register'>Create a free client account</a>
                 </div>
                 <div>
-                    <p>Already have an account? <a href='/login'>Sign in</a></p>
+                    <p>Already have an account? <a href='/business/login'>Sign in</a></p>
                 </div>
             </S.LoginDiv>
-        </div >
-    )
-}
+        </div>
+    );
+};
 
 export default BusinessSignUp;
