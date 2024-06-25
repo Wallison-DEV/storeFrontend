@@ -3,7 +3,7 @@ declare type ButtonProps = {
     children: React.ReactNode | string
     type?: 'button' | 'submit' | 'reset' | 'link'
     className?: string
-    onClick?: () => void
+    onClick?: ((e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | (() => void);
     maxwidth?: string
     href?: string
 }
@@ -40,4 +40,17 @@ declare interface Client {
     cards: Card[];
     address: Address[];
     orders: any[]; 
+}
+
+declare interface ItemProps {
+    name: string;
+    imageUrl: string;
+    rating: number;
+    currentPrice: number;
+    discount: number;
+    lastPrice: number;
+}
+
+declare interface ItemsListProps {
+    category: string;
 }
